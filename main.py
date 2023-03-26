@@ -31,6 +31,7 @@ ListB = ['Віталій', 'Сергій', 'Олег', 'Петро', 'Васил
 
 # вікно 2
 def window2():
+    global A, B
     root = Tk()
     root.geometry("400x300")
     root.title("win2")
@@ -52,7 +53,7 @@ def window2():
     # Creat label and setA,B
     def A_A():
         A = boxA.get(boxA.curselection())
-        Label(root, text=f'A = {A}').grid(row=3,column=0)
+        Label(root, text=f'A = {A}').grid(row=3, column=0)
 
     def B_B():
         B = boxB.get(boxB.curselection())
@@ -62,7 +63,6 @@ def window2():
     butA.grid(row=2, column=0, sticky=W)
     butB = Button(root, text='запистаи B в множину', command=B_B)
     butB.grid(row=2, column=1, sticky=W)
-
 
     def elA():
         boxA['state'] = NORMAL
@@ -76,13 +76,13 @@ def window2():
         fA = open('resA.txt', 'w')
         fA.write(str(A))
         fA.close()
-        Label(root, text='результат збережено в файл').grid(sticky=W)
+        Label(root, text='результат A збережено в файл').grid(sticky=W, row=6, column=0)
 
     def saveB():
         fB = open('resB.txt', 'w')
         fB.write(str(B))
         fB.close()
-        Label(root, text='результат збережено в файл').grid(sticky=W)
+        Label(root, text='результат B збережено в файл').grid(sticky=W, row=6, column=1)
 
     saveA = Button(root, text='Записати результат A в файл', command=saveA)
     saveA.grid(sticky=W, row=5, column=0)
@@ -97,12 +97,34 @@ def window2():
     root.configure(bg='#6E6E6E')
     root.mainloop()
 
+    # вікно 3
+
+
+def window3():
+    root = Tk()
+    root.geometry("400x300")
+    root.title("win3")
+    A = {'Катерина', 'Дарина', 'Оксана', 'Марія', 'Софія', 'Аліна'}
+    B = {'Віталій', 'Олег', 'Василь', 'Богдан', 'Владислав', 'Віктор'}
+    # Creat and Pull sets A and B
+    setA = Listbox(root, height=10, width=10, selectmode=EXTENDED)
+    setA.grid(row=0, column=0)
+    for i in A:
+        setA.insert(END, i)
+
+    setB = Listbox(root, height=10, width=10, selectmode=EXTENDED)
+    setB.grid(row=0, column=1)
+    for i in B:
+        boxB.insert(END, i)
+    root.configure(bg='#6E6E6E')
+    root.mainloop()
+
 
 # Створення вікон 2 3 4
 d = Menu(root)
 root.config(menu=d)
 d.add_cascade(label="Вікно 2", command=window2)
-d.add_cascade(label="Вікно 3")
+d.add_cascade(label="Вікно 3", command=window3)
 d.add_cascade(label="Вікно 4")
 root.configure(bg='#6E6E6E')
 root.mainloop()
