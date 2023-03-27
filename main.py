@@ -102,20 +102,102 @@ def window2():
 
 def window3():
     root = Tk()
-    root.geometry("400x300")
+    root.geometry("800x800")
     root.title("win3")
     A = {'Катерина', 'Дарина', 'Оксана', 'Марія', 'Софія', 'Аліна'}
     B = {'Віталій', 'Олег', 'Василь', 'Богдан', 'Владислав', 'Віктор'}
     # Creat and Pull sets A and B
+    Label(root, text='Множина А').grid(row=0, column=0)
     setA = Listbox(root, height=10, width=10, selectmode=EXTENDED)
-    setA.grid(row=0, column=0)
+    setA.grid(row=1, column=0)
     for i in A:
         setA.insert(END, i)
 
+    Label(root, text='Множина B').grid(row=0, column=1)
     setB = Listbox(root, height=10, width=10, selectmode=EXTENDED)
-    setB.grid(row=0, column=1)
+    setB.grid(row=1, column=1)
     for i in B:
-        boxB.insert(END, i)
+        setB.insert(END, i)
+
+    frm_win3 = Frame(root, bg='navy')
+    frm_win3.grid()
+    lbl_fr3 = LabelFrame(frm_win3, bg='navy', text='A', font=('Garamond', 14), fg='white')
+    lbl_fr3.grid(row=0, column=0)
+    lbl_fr4 = LabelFrame(frm_win3, bg='navy', text='B', font=('Garamond', 14), fg='white')
+    lbl_fr4.grid(row=0, column=1)
+
+
+    lbl_aSb = Label(frm_win3, text='Множина aSb', font=('Garamond', 14), bg='navy',
+                    fg='white')
+    lbl_aSb.grid(row=1, columnspan=3)
+    lbl_aRb = Label(frm_win3, text='Множина aRb', font=('Garamond', 14),
+                         bg='navy', fg='white')
+    lbl_aRb.grid(row=4, columnspan=3)
+
+    def a_onychka_b():
+        A = set()
+        for i in ListA:
+            if i in A:
+                A.add(i)
+        S = []
+        for i in range(min(len(A), len(B))):
+            p = random.choice(list(A))
+            q = random.choice(list(B))
+            if p != q:
+                S.append([p, q])
+        return S
+
+    def a_khrechshena_b():
+        A = set()
+        for i in ListA:
+            if i in A:
+                A.add(i)
+        b = B
+        R = []
+        for i in range(min(len(A), len(b))):
+            p = random.choice(list(b))
+            q = random.choice(list(b))
+            if p != q:
+                if [p, q] not in S:
+                    R.append([p, q])
+        return R
+    S = a_onychka_b()
+    R = a_khrechshena_b()
+
+    aSb = Canvas(frm_win3, width=600, height=200, bg='navy')
+    dict_SA = {}
+    dict_SB = {}
+
+    for i in range(len(A)):
+        aSb.create_text(30 + i * 50, 50, text=list(A)[i], font='Garamond 10')
+        aSb.create_oval([20 + i * 50, 60], [40 + i * 50, 80], fill="green")
+        dict_SA.update({list(A)[i]: [30 + i * 50, 80]})
+    for j in range(len(B)):
+        aSb.create_text(30 + j * 50, 190, text=list(B)[j], font='Garamond 10')
+        aSb.create_oval([20 + j * 50, 160], [40 + j * 50, 180], fill="yellow2")
+        dict_SB.update({list(B)[j]: [30 + j * 50, 160]})
+    for k in S:
+        aSb.create_line(dict_SA[k[0]], dict_SB[k[1]], arrow=LAST)
+    aSb.grid(row=2, column=0, columnspan=3, rowspan=2)
+
+    aRb = Canvas(frm_win3, width=600, height=200, bg='navy')
+    dict_RA = {}
+    dict_RB = {}
+    aRb = Canvas(frm_win3, width=600, height=200, bg='navy')
+    dict_RA = {}
+    dict_RB = {}
+    for i in range(len(A)):
+        aRb.create_text(30 + i * 50, 50, text=list(A)[i], font='Garamond 10')
+        aRb.create_oval([20 + i * 50, 60], [40 + i * 50, 80], fill="green")
+        dict_RA.update({list(A)[i]: [30 + i * 50, 80]})
+    for j in range(len(B)):
+        aRb.create_text(30 + j * 50, 190, text=list(B)[j], font='Garamond 10')
+        aRb.create_oval([20 + j * 50, 160], [40 + j * 50, 180], fill="yellow2")
+        dict_RB.update({list(B)[j]: [30 + j * 50, 160]})
+    for k in R:
+        aRb.create_line(dict_RA[k[0]], dict_RB[k[1]], arrow=LAST)
+        aRb.grid(row=6, column=0, columnspan=3, rowspan=2)
+
     root.configure(bg='#6E6E6E')
     root.mainloop()
 
