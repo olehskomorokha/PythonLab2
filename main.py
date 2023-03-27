@@ -1,5 +1,5 @@
 from tkinter import *
-
+import random
 # MAINMENU
 root = Tk()
 root.geometry("800x900")
@@ -106,25 +106,26 @@ def window3():
     root.title("win3")
     A = {'Катерина', 'Дарина', 'Оксана', 'Марія', 'Софія', 'Аліна'}
     B = {'Віталій', 'Олег', 'Василь', 'Богдан', 'Владислав', 'Віктор'}
-    # Creat and Pull sets A and B
-    Label(root, text='Множина А').grid(row=0, column=0)
-    setA = Listbox(root, height=10, width=10, selectmode=EXTENDED)
-    setA.grid(row=1, column=0)
-    for i in A:
-        setA.insert(END, i)
-
-    Label(root, text='Множина B').grid(row=0, column=1)
-    setB = Listbox(root, height=10, width=10, selectmode=EXTENDED)
-    setB.grid(row=1, column=1)
-    for i in B:
-        setB.insert(END, i)
-
     frm_win3 = Frame(root, bg='navy')
     frm_win3.grid()
     lbl_fr3 = LabelFrame(frm_win3, bg='navy', text='A', font=('Garamond', 14), fg='white')
     lbl_fr3.grid(row=0, column=0)
     lbl_fr4 = LabelFrame(frm_win3, bg='navy', text='B', font=('Garamond', 14), fg='white')
     lbl_fr4.grid(row=0, column=1)
+    # Creat and Pull sets A and B
+    #Label(root, text='Множина А').grid(row=0, column=0)
+    setA = Listbox(lbl_fr3, height=10, width=10, selectmode=EXTENDED)
+
+    for i in A:
+        setA.insert(END, i)
+    setA.grid()
+    #Label(root, text='Множина B').grid(row=0, column=1)
+    setB = Listbox(lbl_fr4, height=10, width=10, selectmode=EXTENDED)
+
+    for i in B:
+        setB.insert(END, i)
+    setB.grid()
+
 
 
     lbl_aSb = Label(frm_win3, text='Множина aSb', font=('Garamond', 14), bg='navy',
@@ -135,7 +136,7 @@ def window3():
     lbl_aRb.grid(row=4, columnspan=3)
 
     def a_onychka_b():
-        A = set()
+        A = {'Катерина', 'Дарина', 'Оксана', 'Марія', 'Софія', 'Аліна'}
         for i in ListA:
             if i in A:
                 A.add(i)
@@ -152,11 +153,10 @@ def window3():
         for i in ListA:
             if i in A:
                 A.add(i)
-        b = B
         R = []
-        for i in range(min(len(A), len(b))):
-            p = random.choice(list(b))
-            q = random.choice(list(b))
+        for i in range(min(len(A), len(B))):
+            p = random.choice(list(B))
+            q = random.choice(list(B))
             if p != q:
                 if [p, q] not in S:
                     R.append([p, q])
@@ -180,9 +180,7 @@ def window3():
         aSb.create_line(dict_SA[k[0]], dict_SB[k[1]], arrow=LAST)
     aSb.grid(row=2, column=0, columnspan=3, rowspan=2)
 
-    aRb = Canvas(frm_win3, width=600, height=200, bg='navy')
-    dict_RA = {}
-    dict_RB = {}
+
     aRb = Canvas(frm_win3, width=600, height=200, bg='navy')
     dict_RA = {}
     dict_RB = {}
@@ -196,7 +194,7 @@ def window3():
         dict_RB.update({list(B)[j]: [30 + j * 50, 160]})
     for k in R:
         aRb.create_line(dict_RA[k[0]], dict_RB[k[1]], arrow=LAST)
-        aRb.grid(row=6, column=0, columnspan=3, rowspan=2)
+    aRb.grid(row=5, column=0, columnspan=3, rowspan=2)
 
     root.configure(bg='#6E6E6E')
     root.mainloop()
