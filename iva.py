@@ -187,6 +187,7 @@ class Main:
             aRb.create_text(30 + j * 50, 190, text=list(self.b)[j], font='Garamond 10')
             aRb.create_oval([20 + j * 50, 160], [40 + j * 50, 180], fill="yellow2")
             dict_RB.update({list(self.b)[j]: [30 + j * 50, 160]})
+
         for k in self.R:
             aRb.create_line(dict_RA[k[0]], dict_RB[k[1]], arrow=LAST)
         aRb.grid(row=5, column=0, columnspan=3, rowspan=2)
