@@ -33,28 +33,30 @@ set_B = ['Віталій', 'Сергій', 'Олег', 'Петро', 'Васил
 # вікно 2
 def window2():
     global a, b
-    win2 = Toplevel(root)
-    win2.title('Window 2')
+
+    root = Tk()
+    root.title('Window 2')
     var = IntVar()
     var.set(0)
     a = set()
     b = set()
 
     def add_women(event):
-        if var.get() == 0:
-            a.add(set_A[event.widget.curselection()[0]])
-        if var.get() == 1:
-            b.add(set_A[event.widget.curselection()[0]])
-        lbl_a['text'] = 'A = {}'.format(a)
-        lbl_b['text'] = 'B = {}'.format(b)
-
-    def add_men(event):
-        if var.get() == 0:
-            a.add(set_B[event.widget.curselection()[0]])
         if var.get() == 1:
             b.add(set_B[event.widget.curselection()[0]])
-            lbl_b['text'] = 'B = {}'.format(b)
-            lbl_a['text'] = 'A = {}'.format(a)
+        if var.get() == 0:
+            a.add(set_A[event.widget.curselection()[0]])
+
+        lbl_a['text'] = f'A = {a}'
+        lbl_b['text'] = f'B = {b}'
+
+    def add_men(event):
+        if var.get() == 1:
+            a.add(set_A[event.widget.curselection()[0]])
+        if var.get() == 0:
+            b.add(set_B[event.widget.curselection()[0]])
+        lbl_b['text'] = f'B = {b}'
+        lbl_a['text'] = f'A = {a}'
 
     def save():
         with open('result.txt', 'w', encoding="utf-8") as f:
@@ -73,39 +75,32 @@ def window2():
         with open('result.txt', 'w') as f:
             f.write('')
 
-    frm_win2 = Frame(win2, bg='red4', bd=10)
-    frm_win2.pack()
-
-    radiobtn_A = Radiobutton(frm_win2, text='Множина А', font=('Garamond', 12), bg='red4',
-                             activebackground='red4', variable=var, value=0)
+    radiobtn_A = Radiobutton(root, text='Множина А', font='arial14'
+                             , variable=var, value=0)
     radiobtn_A.grid(row=1, column=0)
-    radiobtn_B = Radiobutton(frm_win2, text='Множина B', font=('Garamond', 12), bg='red4',
-                             activebackground='red4', variable=var, value=1)
+    radiobtn_B = Radiobutton(root, text='Множина B', font='arial14', variable=var, value=1)
     radiobtn_B.grid(row=1, column=2)
-    lbl_fr1 = LabelFrame(frm_win2, text='Жіночі імена', font=('Garamond', 12), bg='red4', fg='white')
-    lbl_fr1.grid(row=2, column=0)
-    lst1 = Listbox(lbl_fr1, font=('Garamond', 14), selectmode=EXTENDED)
+
+    lst1 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
     lst1.bind("<<ListboxSelect>>", add_women)
     lst1.grid(row=2, column=0)
     for i in set_A:
         lst1.insert(END, i)
 
-    lbl_fr2 = LabelFrame(frm_win2, text='Чоловічі імена', font=('Garamond', 12), bg='red4', fg='white')
-    lbl_fr2.grid(row=2, column=2)
-    lst2 = Listbox(lbl_fr2, font=('Garamond', 14), selectmode=EXTENDED)
+    lst2 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
     lst2.bind("<<ListboxSelect>>", add_men)
     lst2.grid(row=2, column=2)
     for i in set_B:
         lst2.insert(END, i)
 
-    lbl_a = Label(frm_win2, text='A =', bg='red4', font=('Garamond', 14), fg='white')
+    lbl_a = Label(root, text='A =', font='arial14')
     lbl_a.grid(row=3, columnspan=3, sticky='w')
-    lbl_b = Label(frm_win2, text='B =', bg='red4', font=('Garamond', 14), fg='white')
+    lbl_b = Label(root, text='B =', font='arial14')
     lbl_b.grid(row=4, columnspan=3, sticky='w')
 
-    save_btn = Button(frm_win2, text='Зберегти множини', font=('Garamond', 12), bg='snow', command=save)
+    save_btn = Button(root, text='Зберегти множини', font=('Garamond', 12), bg='snow', command=save)
     save_btn.grid(row=5, column=0)
-    del_btn = Button(frm_win2, text='Очистити множини', font=('Garamond', 12), bg='snow', command=del_set)
+    del_btn = Button(root, text='Очистити множини', font=('Garamond', 12), bg='snow', command=del_set)
     del_btn.grid(row=5, column=2)
 
 
@@ -128,6 +123,7 @@ def window3():
     setB.grid(row=1, column=1)
     for i in b:
         setB.insert(END, i)
+
     # mainFunction
     def a_onychka_b():
         A = set()
@@ -165,7 +161,6 @@ def window3():
     dict_SA = {}
     dict_SB = {}
 
-
     aSb = Canvas(root, width=600, height=200, bg='navy')
     dict_SA = {}
     dict_SB = {}
@@ -197,6 +192,7 @@ def window3():
     for k in R:
         aRb.create_line(dict_RA[k[0]], dict_RB[k[1]], arrow=LAST)
     aRb.grid(row=5, column=0, columnspan=3, rowspan=2)
+
 
 # Створення вікон 2 3 4
 d = Menu(root)
