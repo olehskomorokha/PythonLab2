@@ -32,6 +32,7 @@ set_B = ['Віталій', 'Сергій', 'Олег', 'Петро', 'Васил
 
 # вікно 2
 def window2():
+    global a, b
     win2 = Toplevel(root)
     win2.title('Window 2')
     var = IntVar()
@@ -56,7 +57,7 @@ def window2():
             lbl_a['text'] = 'A = {}'.format(a)
 
     def save():
-        with open('result.txt', 'a') as f:
+        with open('result.txt', 'w', encoding="utf-8") as f:
             f.write(str(a))
             f.write('\n')
             f.write(str(b))
@@ -66,22 +67,20 @@ def window2():
     def del_set():
         a = set()
         b = set()
-        lbl_a['text'] = 'A = {}'.format(a)
-        lbl_b['text'] = 'B = {}'.format(b)
+        lbl_a['text'] = f'A = {a}'
+        lbl_b['text'] = f'B = {b}'
         save_btn.config(state=NORMAL)
         with open('result.txt', 'w') as f:
             f.write('')
 
     frm_win2 = Frame(win2, bg='red4', bd=10)
     frm_win2.pack()
-    choose_set = Label(frm_win2, text='Оберіть до якої множини додавати елементи:', bg='red4',
-                            font=('Garamond', 14), fg='white')
-    choose_set.grid(row=0, columnspan=3)
+
     radiobtn_A = Radiobutton(frm_win2, text='Множина А', font=('Garamond', 12), bg='red4',
-                                  activebackground='red4', variable=var, value=0)
+                             activebackground='red4', variable=var, value=0)
     radiobtn_A.grid(row=1, column=0)
     radiobtn_B = Radiobutton(frm_win2, text='Множина B', font=('Garamond', 12), bg='red4',
-                                  activebackground='red4', variable=var, value=1)
+                             activebackground='red4', variable=var, value=1)
     radiobtn_B.grid(row=1, column=2)
     lbl_fr1 = LabelFrame(frm_win2, text='Жіночі імена', font=('Garamond', 12), bg='red4', fg='white')
     lbl_fr1.grid(row=2, column=0)
@@ -120,16 +119,84 @@ def window3():
 
     setA = Listbox(root, height=10, width=10, selectmode=EXTENDED)
     setA.grid(row=1, column=0)
-    for i in adA:
+    for i in a:
         setA.insert(END, i)
 
     Label(root, text='Множина B').grid(row=0, column=1)
 
     setB = Listbox(root, height=10, width=10, selectmode=EXTENDED)
     setB.grid(row=1, column=1)
-    for i in adB:
+    for i in b:
         setB.insert(END, i)
+    # mainFunction
+    def a_onychka_b():
+        A = set()
+        for i in a:
+            if i in set_A:
+                A.add(i)
+        B = b
+        S = []
+        for i in range(min(len(A), len(B))):
+            p = random.choice(list(A))
+            q = random.choice(list(B))
+            if p != q:
+                S.append([p, q])
+        return S
 
+    def a_khrechshena_b():
+        A = set()
+        for i in a:
+            if i in set_A:
+                A.add(i)
+        B = b
+        R = []
+        for i in range(min(len(A), len(B))):
+            p = random.choice(list(A))
+            q = random.choice(list(B))
+            if p != q:
+                if [p, q] not in S:
+                    R.append([p, q])
+        return R
+
+    S = a_onychka_b()
+    R = a_khrechshena_b()
+
+    aSb = Canvas(root, width=600, height=200, bg='navy')
+    dict_SA = {}
+    dict_SB = {}
+
+
+    aSb = Canvas(root, width=600, height=200, bg='navy')
+    dict_SA = {}
+    dict_SB = {}
+
+    for i in range(len(a)):
+        aSb.create_text(30 + i * 50, 50, text=list(a)[i], font='Garamond 10')
+        aSb.create_oval([20 + i * 50, 60], [40 + i * 50, 80], fill="green")
+        dict_SA.update({list(a)[i]: [30 + i * 50, 80]})
+    for j in range(len(b)):
+        aSb.create_text(30 + j * 50, 190, text=list(b)[j], font='Garamond 10')
+        aSb.create_oval([20 + j * 50, 160], [40 + j * 50, 180], fill="yellow2")
+        dict_SB.update({list(b)[j]: [30 + j * 50, 160]})
+    for k in S:
+        aSb.create_line(dict_SA[k[0]], dict_SB[k[1]], arrow=LAST)
+    aSb.grid(row=2, column=0, columnspan=3, rowspan=2)
+
+    aRb = Canvas(root, width=600, height=200, bg='navy')
+    dict_RA = {}
+    dict_RB = {}
+    for i in range(len(a)):
+        aRb.create_text(30 + i * 50, 50, text=list(a)[i], font='Garamond 10')
+        aRb.create_oval([20 + i * 50, 60], [40 + i * 50, 80], fill="green")
+        dict_RA.update({list(a)[i]: [30 + i * 50, 80]})
+    for j in range(len(b)):
+        aRb.create_text(30 + j * 50, 190, text=list(b)[j], font='Garamond 10')
+        aRb.create_oval([20 + j * 50, 160], [40 + j * 50, 180], fill="yellow2")
+        dict_RB.update({list(b)[j]: [30 + j * 50, 160]})
+
+    for k in R:
+        aRb.create_line(dict_RA[k[0]], dict_RB[k[1]], arrow=LAST)
+    aRb.grid(row=5, column=0, columnspan=3, rowspan=2)
 
 # Створення вікон 2 3 4
 d = Menu(root)
