@@ -51,16 +51,16 @@ def window2():
         if var.get() == 0:
             a.add(set_A[event.widget.curselection()[0]])
 
-        lbl_a['text'] = f'A = {a}'
-        lbl_b['text'] = f'B = {b}'
+        label_a['text'] = f'A = {a}'
+        label_b['text'] = f'B = {b}'
 
     def men(event):
         if var.get() == 1:
             a.add(set_A[event.widget.curselection()[0]])
         if var.get() == 0:
             b.add(set_B[event.widget.curselection()[0]])
-        lbl_b['text'] = f'B = {b}'
-        lbl_a['text'] = f'A = {a}'
+        label_b['text'] = f'B = {b}'
+        label_a['text'] = f'A = {a}'
 
     def save():
         with open('result.txt', 'w', encoding="utf-8") as f:
@@ -68,14 +68,14 @@ def window2():
             f.write('\n')
             f.write(str(b))
             f.write('\n')
-        save_btn.config(state=DISABLED)
+        save.config(state=DISABLED)
 
-    def del_set():
+    def delete():
         a = set()
         b = set()
-        lbl_a['text'] = f'A = {a}'
-        lbl_b['text'] = f'B = {b}'
-        save_btn.config(state=NORMAL)
+        label_al_a['text'] = f'A = {a}'
+        label_b['text'] = f'B = {b}'
+        save.config(state=NORMAL)
         with open('result.txt', 'w') as f:
             f.write('')
 
@@ -85,27 +85,27 @@ def window2():
     radiobtn_B = Radiobutton(root, text='Множина B', font='arial14', variable=var, value=1, bg='#4B4B55', fg='white')
     radiobtn_B.grid(row=1, column=2)
 
-    lst1 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
-    lst1.bind("<<ListboxSelect>>", women)
-    lst1.grid(row=2, column=0)
+    list1 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
+    list1.bind("<<ListboxSelect>>", women)
+    list1.grid(row=2, column=0)
     for i in set_A:
-        lst1.insert(END, i)
+        list1.insert(END, i)
 
-    lst2 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
-    lst2.bind("<<ListboxSelect>>", men)
-    lst2.grid(row=2, column=2)
+    list2 = Listbox(root, font=('Garamond', 14), selectmode=EXTENDED)
+    list2.bind("<<ListboxSelect>>", men)
+    list2.grid(row=2, column=2)
     for i in set_B:
-        lst2.insert(END, i)
+        list2.insert(END, i)
 
-    lbl_a = Label(root, text='A =', font='arial14', bg='#4B4B55', fg='white')
-    lbl_a.grid(row=3, columnspan=3, sticky='w')
-    lbl_b = Label(root, text='B =', font='arial14', bg='#4B4B55', fg='white')
-    lbl_b.grid(row=4, columnspan=3, sticky='w')
+    label_a = Label(root, text='A =', font='arial14', bg='#4B4B55', fg='white')
+    label_a.grid(row=3, columnspan=3, sticky='w')
+    label_b = Label(root, text='B =', font='arial14', bg='#4B4B55', fg='white')
+    label_b.grid(row=4, columnspan=3, sticky='w')
 
-    save_btn = Button(root, text='Зберегти множини', font='arial14', bg='black', fg='white', command=save)
-    save_btn.grid(row=5, column=0)
-    del_btn = Button(root, text='Очистити множини', font='arial14', bg='black', fg='white', command=del_set)
-    del_btn.grid(row=5, column=2)
+    save = Button(root, text='Зберегти множини', font='arial14', bg='black', fg='white', command=save)
+    save.grid(row=5, column=0)
+    delBut = Button(root, text='Очистити множини', font='arial14', bg='black', fg='white', command=delete)
+    delBut.grid(row=5, column=2)
 
 
 def window3():
@@ -137,14 +137,24 @@ def window3():
             if i in set_A:
                 A.add(i)
         B = b
-        S = []
+        promizhkiviyS = []
 
         for i in range(min(len(A), len(B))):
-            p = random.choice(list(A))
-            q = random.choice(list(B))
+            mama = random.choice(list(A))
+            sin = random.choice(list(B))
 
-            if p != q:
-                S.append([p, q])
+
+            if mama != sin:
+                promizhkiviyS.append([mama, sin])
+
+        S = []
+        set_a = set()
+        set_b = set()
+        for elem in promizhkiviyS:
+            if elem[1] not in set_b and elem[0] not in set_a:
+                set_b.add(elem[1])
+                set_a.add(elem[0])
+                S.append(elem)
         return S
 
     def a_TESHA_b():
@@ -153,15 +163,22 @@ def window3():
             if i in set_A:
                 A.add(i)
         B = b
-        R = []
+        promizhR = []
         for i in range(min(len(A), len(B))):
-            p = random.choice(list(A))
-            q = random.choice(list(B))
+            tesha = random.choice(list(A))
+            men = random.choice(list(B))
 
-            if p != q:
-                if [p, q] not in S:
-                    R.append([p, q])
-
+            if tesha != men:
+                if [tesha, men] not in S:
+                    promizhR.append([tesha, men])
+        R = []
+        set_a = set()
+        set_b = set()
+        for elem in promizhR:
+            if elem[1] not in set_b and elem[0] not in set_a:
+                set_b.add(elem[1])
+                set_a.add(elem[0])
+                R.append(elem)
         return R
 
     S = a_MAMA_b()
